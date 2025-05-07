@@ -8,6 +8,9 @@ import PostComponent from './assets/components/PostComponent';
 import ChildrenProp from './assets/components/ChildrenProp';
 import MyButtonComponent from './assets/components/MyButtonComponent';
 import UseStateComponent from './assets/components/UseStateComponent';
+import ProductForm from './assets/components/Formulários/ProductForm';
+import ProductTable from './assets/components/Formulários/ProductTable';
+import { useState } from 'react';
 
 
 
@@ -22,18 +25,18 @@ function App() {
   }
 
   
-  const products = [
-    { id: 1, name: 'Laranja', },
-    { id: 2, name: 'Uva'},
-    { id: 3, name: 'Maçã'},
-    { id: 4, name: 'Banana'}
-  ];
+  // const products = [
+  //   { id: 1, name: 'Laranja', },
+  //   { id: 2, name: 'Uva'},
+  //   { id: 3, name: 'Maçã'},
+  //   { id: 4, name: 'Banana'}
+  // ];
 
-  const listitems = products.map(products => 
-    <li  key = {products.id}>
-      {products.name}
-    </li>
-  )
+  // const listitems = products.map(products => 
+  //   <li  key = {products.id}>
+  //     {products.name}
+  //   </li>
+  // )
 
   const listPosts = [
     {id: 1, title: 'Post 1', descripition: 'Descrição do post 1'},
@@ -42,6 +45,53 @@ function App() {
     {id: 4, title: 'Post 4', descripition: 'Descrição do post 4'},
     {id: 5, title: 'Post 5', descripition: 'Descrição do post 5'},
   ]
+
+  const [ products, setProducts ] = useState([])
+  const [id, setId] = useState(1)
+  const [name, setName] = useState("")
+  const [price, setPrice] = useState("")
+  const [stock, setStock] = useState("")
+  const [edit, setEdit] = useState(false)
+
+  const ClearForm = () => {
+    setName("")
+    setPrice("")
+    setStock("")
+  }
+
+  const saveProduct = (e) => {
+    e.preventDefault();
+    if(!edit) {
+      setId(v => v + 1);
+      setProducts((prevProducts) => [...prevProducts, {id, name, price, stock}])
+    }
+
+    if(edit) {
+      const productIndex = products.findIndex(prod => prod.id === id)
+      products[productIndex] = {id, name, price, stock}
+      setProducts(products)
+      setEdit(false)
+    }
+    ClearForm()
+
+  }
+
+  const deleteProduct = (id) => {
+    setProducts(products.filter(prod => prod.id !== id))
+  }
+
+  const editProduct = (id) => {
+    const product = products.find(prod => prod.id === id)
+    setId(product.id)
+    setName(product.name)
+    setPrice(product.price)
+    setStock(product.stock) 
+    setEdit(true)
+  }
+
+  const handleName =(e) => {setName(e.target.value)}
+  const handlePrice =(e) => {setPrice(e.target.value)}
+  const handleStock =(e) => {setStock(e.target.value)}
   
   return (
 
@@ -56,7 +106,7 @@ function App() {
 
 {/* lista solta */}
     <div>
-      <ul>{listitems}</ul>
+      {/* <ul>{listitems}</ul> */}
     </div>
 
 {/* tabela */}
@@ -115,6 +165,17 @@ function App() {
     <div>
       <UseStateComponent />
     </div>
+
+
+    <ProductForm name = {name} price = {price} stock = {stock} handleName = {handleName}
+      handlePrice = {handlePrice} handleStock = {handleStock} saveProduct = {saveProduct}/>
+
+      <div>
+        {
+          products.length > 0 ? <ProductTable products = {products} deleteProduct = {deleteProduct} editProduct = {editProduct}/> :
+          <h3 style = {{marginBottom: '30px', color: 'black'}}>Nenhum produto cadastrado...</h3>
+        }
+      </div>
     </>
     
   )
