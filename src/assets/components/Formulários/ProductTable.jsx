@@ -1,3 +1,5 @@
+import './ProductTable.css';
+
 export default function ProductTable({products, deleteProduct, editProduct}) {
 
     const currencyFormatter = (value) => {
@@ -9,9 +11,9 @@ export default function ProductTable({products, deleteProduct, editProduct}) {
     }
 
     return (
-        <div className={classes.table_container}>
+        <div className="table_container">
             <h2>Lista de Produtos</h2>
-            <table className={classes.table}>
+            <table className="table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -28,7 +30,7 @@ export default function ProductTable({products, deleteProduct, editProduct}) {
                             <td>{prod.name}</td>
                             <td>{currencyFormatter(prod.price)}</td>
                             <td>{numberFormatter(prod.stock)}</td>
-                            <td className={classes.actions}>
+                            <td className="actions">
                                 <button onClick={() => editProduct(prod.id)}>Editar</button>
                                 <button onClick={() => deleteProduct(prod.id)}>Excluir</button>
                             </td>
