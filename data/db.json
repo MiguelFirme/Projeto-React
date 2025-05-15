@@ -1,0 +1,16 @@
+{
+  "products": [
+    {
+      "id": "9386",
+      "name": "Tição",
+      "price": "0.00",
+      "stock": "1"
+    },
+    {
+      "name": "banana",
+      "price": "3",
+      "stock": "50",
+      "id": "f75e"
+    }
+  ]
+}
